@@ -7,9 +7,13 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.13"
 gymnasium = "^0.29.1"
 vizdoom = "^1.2.3"
+numpy = "^1.26.4"
+matplotlib = "^3.8.4"
+seaborn = "^0.13.2"
+tqdm = "^4.66.4"
 
 
 [build-system]
