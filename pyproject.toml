@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "vega"
+version = "0.1.0"
+description = "AI learns to play DOOM"
+authors = ["Richard Csanaki <richard.csanaki@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+gymnasium = "^0.29.1"
+vizdoom = "^1.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
