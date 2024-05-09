@@ -1,16 +1,14 @@
 from __future__ import annotations
-
 from collections import defaultdict
-
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from matplotlib.patches import Patch
 from tqdm import tqdm
-
 import gymnasium as gym
+from vizdoom import gymnasium_wrapper
 
-env = gym.make("VizdoomHealthGatheringSupreme-v0", render_mode="human")
+env = gym.make("VizdoomDeadlyCorridor-v0", render_mode="human")
 
 done = False
 observation, info = env.reset()
@@ -81,7 +79,7 @@ class SlayerAgent:
         self.epsilon = max(self.final_epsilon, self.epsilon - self.epsilon_decay)
 
 learning_rate = 0.01
-n_episodes = 100_000
+n_episodes = 10
 start_epsilon = 1.0
 epsilon_decay = start_epsilon / (n_episodes / 2)  # reduce the exploration over time
 final_epsilon = 0.1
