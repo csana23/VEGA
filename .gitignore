@@ -129,6 +129,10 @@ env.bak/
 venv.bak/
 vega_env/
 
+# tensorboard and models
+ppo/models/
+runs/
+
 # Spyder project settings
 .spyderproject
 .spyproject

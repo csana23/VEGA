@@ -1,11 +1,8 @@
-from argparse import ArgumentParser
-
 import cv2
 import gymnasium
 import numpy as np
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
-
 import vizdoom.gymnasium_wrapper  # noqa
 
 DEFAULT_ENV = "VizdoomBasic-v0"
@@ -13,9 +10,10 @@ AVAILABLE_ENVS = [env for env in gymnasium.envs.registry.keys() if "Vizdoom" in 
 ENV = "VizdoomBasic-v0"
 # Height and width of the resized image
 IMAGE_SHAPE = (60, 80)
+TB_LOG="../runs/sb_ppo_tensorboard/"
 
 # Training parameters
-TRAINING_TIMESTEPS = int(1e6)
+TRAINING_TIMESTEPS = 10240
 N_STEPS = 128
 N_ENVS = 8
 FRAME_SKIP = 4
@@ -54,7 +52,6 @@ class ObservationWrapper(gymnasium.ObservationWrapper):
         observation = cv2.resize(observation["screen"], self.image_shape_reverse)
         return observation
 
-
 def main():
     # Create multiple environments: this speeds up training with PPO
     # We apply two wrappers on the environment:
@@ -68,13 +65,14 @@ def main():
 
     envs = make_vec_env(ENV, n_envs=N_ENVS, wrapper_class=wrap_env)
 
-    agent = PPO("CnnPolicy", envs, n_steps=N_STEPS, verbose=1)
-
+    agent = PPO("CnnPolicy", envs, n_steps=N_STEPS, verbose=1, device="cuda", tensorboard_log=TB_LOG)
+    
     # Do the actual learning
     # This will print out the results in the console.
     # If agent gets better, "ep_rew_mean" should increase steadily
     agent.learn(total_timesteps=TRAINING_TIMESTEPS)
 
+    agent.save("sb_ppo")
 
 if __name__ == "__main__":
     main()
